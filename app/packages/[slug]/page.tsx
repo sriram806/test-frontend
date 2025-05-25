@@ -21,12 +21,16 @@ export async function generateStaticParams() {
   }));
 }
 
-type Props = {
-  params: { slug: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+interface PageProps {
+  params: {
+    slug: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default function PackageDetailPage({ params }: Props) {
+export default async function PackageDetailPage({
+  params,
+}: PageProps) {
   const { slug } = params;
 
   const packageData = travelPackages.find(pkg => pkg.slug === slug);
