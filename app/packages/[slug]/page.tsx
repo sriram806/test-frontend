@@ -21,7 +21,7 @@ export async function generateStaticParams() {
   }));
 }
 
-type PageProps = {
+interface PageProps {
   params: Promise<{ slug: string }>;
   searchParams?: { [key: string]: string | string[] | undefined };
 }
