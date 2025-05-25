@@ -1,16 +1,19 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  MapPin, 
-  Clock, 
-  Star, 
-  ChevronLeft
+import Image from 'next/image';
+import {
+  MapPin,
+  Clock,
+  Star,
+  ChevronLeft,
+  RefreshCcw
 } from 'lucide-react';
-import { travelPackages, TravelPackage } from '@/lib/data';
+import { travelPackages } from '@/lib/data';
 import BookingForm from '@/components/packages/booking-form';
 import PackageDetails from '@/components/packages/package-details';
 import PackageGallery from '@/components/packages/package-gallery';
 import ReferralProgram from '@/components/packages/referral-program';
+import PriceBreakdown from '@/components/packages/PriceBreakdown';
 
 export async function generateStaticParams() {
   return travelPackages.map((pkg) => ({
@@ -18,14 +21,15 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function PackageDetailPage({ params }: { params: { slug: string } }) {
-  const packageData = travelPackages.find(pkg => pkg.slug === params.slug);
-  
+export default async function PackageDetailPage({ params }: { params: { slug: string } }) {
+  const { slug } = await params;
+
+  const packageData = travelPackages.find(pkg => pkg.slug === slug);
+
   if (!packageData) {
     notFound();
   }
 
-  // Serialize the package data
   const serializedPackage = {
     id: packageData.id,
     name: packageData.name,
@@ -40,23 +44,34 @@ export default function PackageDetailPage({ params }: { params: { slug: string }
     gallery: packageData.gallery,
     featured: packageData.featured,
     rating: packageData.rating,
-    reviewCount: packageData.reviewCount
+    reviewCount: packageData.reviewCount,
+    whatsappLink: packageData.whatsappLink
   };
+
+  // Example breakdown — adjust as you want
+  const priceBreakdown = [
+    { label: 'Base Price', amount: Math.floor(packageData.price * 0.7) },
+    { label: 'Taxes & Fees', amount: Math.floor(packageData.price * 0.2) },
+    { label: 'Service Charges', amount: Math.floor(packageData.price * 0.1) },
+  ];
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 min-h-screen pb-12">
       {/* Gallery Section */}
       <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
-        <img 
-          src={packageData.gallery[0]} 
+        <Image
+          src={packageData.image}
           alt={packageData.name}
-          className="w-full h-full object-cover"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-        
+
         {/* Back button */}
-        <Link 
-          href="/packages" 
+        <Link
+          href="/packages"
           className="absolute top-4 left-4 flex items-center gap-1 text-white bg-black/30 hover:bg-black/50 backdrop-blur-sm rounded-full px-4 py-2 text-sm transition-colors"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -69,25 +84,47 @@ export default function PackageDetailPage({ params }: { params: { slug: string }
           <div className="flex flex-col md:flex-row gap-8">
             {/* Package Details */}
             <div className="md:w-2/3">
-              <h1 className="text-3xl font-bold mb-4">{packageData.name}</h1>
-              
-              <div className="flex flex-wrap gap-4 mb-6">
-                <div className="flex items-center text-gray-600 dark:text-gray-400">
-                  <MapPin className="h-5 w-5 mr-2" />
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-4">
+                <h1 className="text-3xl font-bold">{packageData.name}</h1>
+
+                {/* PriceBreakdown Client Component */}
+                <PriceBreakdown
+                  price={packageData.price}
+                  breakdown={[
+                    { label: 'Base Price', amount: Math.floor(packageData.price * 0.75) },
+                    { label: 'Taxes & Fees', amount: Math.floor(packageData.price * 0.2) },
+                    { label: 'Service Charge', amount: Math.floor(packageData.price * 0.05) },
+                  ]}
+                />
+              </div>
+
+              <div className="flex flex-wrap gap-6 mb-6 text-gray-600 dark:text-gray-400">
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-5 w-5" />
                   <span>{packageData.location}</span>
                 </div>
-                <div className="flex items-center text-gray-600 dark:text-gray-400">
-                  <Clock className="h-5 w-5 mr-2" />
+                <div className="flex items-center gap-2">
+                  <Clock className="h-5 w-5" />
                   <span>{packageData.duration}</span>
                 </div>
-                <div className="flex items-center text-gray-600 dark:text-gray-400">
-                  <Star className="h-5 w-5 mr-2 text-yellow-400" />
+                <div className="flex items-center gap-2">
+                  <Star className="h-5 w-5 text-yellow-400" />
                   <span>{packageData.rating} ({packageData.reviewCount} reviews)</span>
                 </div>
               </div>
 
+              {/* Features Section */}
+              <div className="mb-8">
+                <h2 className="text-2xl font-semibold mb-4">Features</h2>
+                <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
+                  {packageData.inclusions.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+
               <PackageDetails packageData={serializedPackage} />
-              
+
               {/* Gallery Section */}
               <div className="mt-12">
                 <h2 className="text-2xl font-semibold mb-6">Photo Gallery</h2>
@@ -99,7 +136,6 @@ export default function PackageDetailPage({ params }: { params: { slug: string }
             <div className="md:w-1/3 space-y-6">
               <div className="sticky top-24 space-y-6">
                 <BookingForm packageData={serializedPackage} />
-                <ReferralProgram packageName={packageData.name} packageId={packageData.id} />
               </div>
             </div>
           </div>

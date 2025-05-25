@@ -56,7 +56,7 @@ export default function ContactPage() {
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
-      <div className="bg-primary text-white py-12">
+      <div className="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-50 ml-2 py-12">
         <div className="container mx-auto px-4">
           <h1 className="text-3xl font-bold mb-4">Contact Us</h1>
           <p className="max-w-2xl">
@@ -170,6 +170,7 @@ export default function ContactPage() {
                       name="name"
                       placeholder="Enter your full name"
                       value={formData.name}
+                      className='dark:bg-gray-700'
                       onChange={handleChange}
                       required
                     />
@@ -183,6 +184,7 @@ export default function ContactPage() {
                       type="email"
                       placeholder="you@example.com"
                       value={formData.email}
+                      className='dark:bg-gray-700'
                       onChange={handleChange}
                       required
                     />
@@ -195,6 +197,7 @@ export default function ContactPage() {
                     <Input
                       id="phone"
                       name="phone"
+                      className='dark:bg-gray-700'
                       placeholder="Enter your phone number"
                       value={formData.phone}
                       onChange={handleChange}
@@ -207,10 +210,10 @@ export default function ContactPage() {
                       value={formData.subject}
                       onValueChange={(value) => setFormData(prev => ({ ...prev, subject: value }))}
                     >
-                      <SelectTrigger id="subject">
-                        <SelectValue placeholder="Select subject" />
+                      <SelectTrigger className='dark:bg-gray-700' id="subject">
+                        <SelectValue className='dark:bg-gray-700' placeholder="Select subject" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className='dark:bg-gray-700'>
                         <SelectItem value="general">General Inquiry</SelectItem>
                         <SelectItem value="booking">Booking Information</SelectItem>
                         <SelectItem value="support">Customer Support</SelectItem>
@@ -229,7 +232,7 @@ export default function ContactPage() {
                     placeholder="How can we help you?"
                     value={formData.message}
                     onChange={handleChange}
-                    className="min-h-[150px]"
+                    className="min-h-[150px] dark:bg-gray-700"
                     required
                   />
                 </div>
@@ -261,14 +264,14 @@ export default function ContactPage() {
             <h2 className="text-xl font-bold mb-6">Our Location</h2>
             <div className="h-[400px] rounded-lg overflow-hidden">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60236.08843553887!2d83.28644841694484!3d17.68681542911806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a394f4763c36701%3A0x3f648823c9f6aa9f!2sVisakhapatnam%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1692614800000!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3819.3771941308724!2d83.29782331505235!3d17.68678578810639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a394f475d7a1b13%3A0x8d227978b3e0a3e2!2sVisakhapatnam%2C%20Andhra%20Pradesh%20530001!5e0!3m2!1sen!2sin!4v1692616000000!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
-                allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
+
             </div>
           </div>
         </div>

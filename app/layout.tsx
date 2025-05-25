@@ -9,15 +9,28 @@ import Script from 'next/script';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Flyobo - Book Your Dream Vacation',
-  description: 'Find and book amazing travel packages to destinations worldwide. Best prices guaranteed.',
+  title: 'FlyOBO - Your Journey Begins Here',
+  description: 'Discover amazing travel packages and book your next adventure with FlyOBO.',
+  icons: {
+    icon: [
+      {
+        url: '/logo.png',
+        sizes: 'any',
+      },
+      {
+        url: '/banner.png',
+        type: 'image/png',
+        sizes: '32x32',
+      },
+    ]
+  },
   keywords: 'travel, vacation, holiday, packages, tours, booking',
   openGraph: {
     type: 'website',
     locale: 'en_IE',
     url: 'https://flyobo.com',
-    siteName: 'Flyobo',
-    title: 'Flyobo - Book Your Dream Vacation',
+    siteName: 'FlyOBO',
+    title: 'FlyOBO - Your Journey Begins Here',
     description: 'Find and book amazing travel packages to destinations worldwide. Best prices guaranteed.',
     images: [
       {

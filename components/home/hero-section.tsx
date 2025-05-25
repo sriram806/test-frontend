@@ -37,7 +37,7 @@ export function HeroSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ 
-          backgroundImage: "url('https://images.pexels.com/photos/3155666/pexels-photo-3155666.jpeg')",
+          backgroundImage: "url('https://www.travsie.com/destination/kashmir/big/10.jpg')",
           height: "100%",
           width: "100%"
         }}
@@ -70,7 +70,7 @@ export function HeroSection() {
                 <SelectContent>
                   <SelectItem value="Goa">Goa</SelectItem>
                   <SelectItem value="Kerala">Kerala</SelectItem>
-                  <SelectItem value="Rajasthan">Rajasthan</SelectItem>
+                  <SelectItem value="Kashmir">Kashmir</SelectItem>
                   <SelectItem value="Himachal Pradesh">Himachal Pradesh</SelectItem>
                   <SelectItem value="Andaman">Andaman</SelectItem>
                 </SelectContent>
@@ -110,10 +110,10 @@ export function HeroSection() {
                 Kerala
               </Link>
               <Link 
-                href="/packages?location=Rajasthan" 
+                href="/packages?location=Kashmir" 
                 className="rounded-full bg-white/20 px-4 py-1 text-sm text-white hover:bg-white/30 transition-colors"
               >
-                Rajasthan
+                Kashmir
               </Link>
               <Link 
                 href="/packages?location=Himachal Pradesh" 

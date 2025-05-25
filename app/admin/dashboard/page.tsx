@@ -205,7 +205,7 @@ export default function AdminDashboardPage() {
         
         <main className="p-6">
           {/* Stats Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
@@ -269,7 +269,7 @@ export default function AdminDashboardPage() {
           </div>
           
           {/* Charts Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
             <Card>
               <CardHeader>
                 <CardTitle>Booking Overview</CardTitle>
@@ -284,7 +284,7 @@ export default function AdminDashboardPage() {
                     >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
-                      <YAxis />
+                      <YAxis tickFormatter={(value) => value.toLocaleString()} />
                       <Tooltip />
                       <Legend />
                       <Bar dataKey="bookings" fill="hsl(var(--chart-1))" name="Bookings" />
@@ -308,7 +308,7 @@ export default function AdminDashboardPage() {
                     >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
-                      <YAxis />
+                      <YAxis tickFormatter={(value) => `₹${(value/1000).toFixed(0)}K`} />
                       <Tooltip 
                         formatter={(value) => [`₹${Number(value).toLocaleString()}`, 'Revenue']}
                       />
@@ -329,7 +329,7 @@ export default function AdminDashboardPage() {
             </Card>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
             <Card>
               <CardHeader>
                 <CardTitle>Package Distribution</CardTitle>
@@ -373,47 +373,49 @@ export default function AdminDashboardPage() {
                 </Button>
               </CardHeader>
               <CardContent>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-left py-3 px-2 font-medium">ID</th>
-                        <th className="text-left py-3 px-2 font-medium">Customer</th>
-                        <th className="text-left py-3 px-2 font-medium">Package</th>
-                        <th className="text-left py-3 px-2 font-medium">Date</th>
-                        <th className="text-left py-3 px-2 font-medium">Amount</th>
-                        <th className="text-left py-3 px-2 font-medium">Status</th>
-                        <th className="text-left py-3 px-2 font-medium"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {recentBookings.map((booking) => (
-                        <tr key={booking.id} className="border-b">
-                          <td className="py-3 px-2">{booking.id}</td>
-                          <td className="py-3 px-2">{booking.customer}</td>
-                          <td className="py-3 px-2">{booking.package}</td>
-                          <td className="py-3 px-2">{booking.date}</td>
-                          <td className="py-3 px-2">₹{booking.amount.toLocaleString()}</td>
-                          <td className="py-3 px-2">
-                            <span className={`px-2 py-1 rounded-full text-xs ${
-                              booking.status === 'Confirmed' 
-                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
-                                : booking.status === 'Pending'
-                                ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                                : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                            }`}>
-                              {booking.status}
-                            </span>
-                          </td>
-                          <td className="py-3 px-2">
-                            <Button variant="ghost" size="icon">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </td>
+                <div className="overflow-x-auto -mx-6 sm:mx-0">
+                  <div className="inline-block min-w-full align-middle">
+                    <table className="min-w-full text-sm">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-3 px-2 font-medium">ID</th>
+                          <th className="text-left py-3 px-2 font-medium">Customer</th>
+                          <th className="text-left py-3 px-2 font-medium">Package</th>
+                          <th className="text-left py-3 px-2 font-medium">Date</th>
+                          <th className="text-left py-3 px-2 font-medium">Amount</th>
+                          <th className="text-left py-3 px-2 font-medium">Status</th>
+                          <th className="text-left py-3 px-2 font-medium"></th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {recentBookings.map((booking) => (
+                          <tr key={booking.id} className="border-b">
+                            <td className="py-3 px-2">{booking.id}</td>
+                            <td className="py-3 px-2">{booking.customer}</td>
+                            <td className="py-3 px-2">{booking.package}</td>
+                            <td className="py-3 px-2">{booking.date}</td>
+                            <td className="py-3 px-2">₹{booking.amount.toLocaleString()}</td>
+                            <td className="py-3 px-2">
+                              <span className={`px-2 py-1 rounded-full text-xs ${
+                                booking.status === 'Confirmed' 
+                                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
+                                  : booking.status === 'Pending'
+                                  ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                                  : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                              }`}>
+                                {booking.status}
+                              </span>
+                            </td>
+                            <td className="py-3 px-2">
+                              <Button variant="ghost" size="icon">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </CardContent>
             </Card>

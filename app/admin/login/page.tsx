@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import Cookies from "js-cookie";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -27,8 +28,8 @@ export default function AdminLoginPage() {
       // Here you would typically make an API call to your authentication endpoint
       // For demo purposes, we'll use a simple check
       if (formData.email === "admin@example.com" && formData.password === "admin123") {
-        // Store the authentication token
-        localStorage.setItem("adminToken", "demo-token");
+        // Store the authentication token in a cookie
+        Cookies.set("adminToken", "demo-token", { expires: 7 }); // Expires in 7 days
         // Redirect to admin dashboard
         router.push("/admin/packages");
       } else {
@@ -45,9 +46,9 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Admin Login</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center text-primary">TravelEase Admin</CardTitle>
           <CardDescription className="text-center">
-            Enter your credentials to access the admin dashboard
+            Sign in to manage your travel packages and bookings
           </CardDescription>
         </CardHeader>
         <CardContent>

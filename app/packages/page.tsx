@@ -6,12 +6,12 @@ import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { ArrowRight, Star, MapPin, Clock, Search, FilterX } from 'lucide-react';
@@ -21,7 +21,7 @@ export default function PackagesPage() {
   const searchParams = useSearchParams();
   const locationParam = searchParams.get('location');
   const searchQuery = searchParams.get('search');
-  
+
   const [packages, setPackages] = useState<TravelPackage[]>([]);
   const [filteredPackages, setFilteredPackages] = useState<TravelPackage[]>([]);
   const [searchTerm, setSearchTerm] = useState(searchQuery || '');
@@ -31,12 +31,12 @@ export default function PackagesPage() {
     duration: 'any',
     sortBy: 'recommended'
   });
-  
+
   useEffect(() => {
     // In a real app, this would be an API call with filters
     setPackages(travelPackages);
   }, []);
-  
+
   useEffect(() => {
     if (locationParam) {
       setFilters(prev => ({ ...prev, location: locationParam }));
@@ -45,34 +45,34 @@ export default function PackagesPage() {
       setSearchTerm(searchQuery);
     }
   }, [locationParam, searchQuery]);
-  
+
   useEffect(() => {
     applyFilters();
   }, [packages, filters, searchTerm]);
-  
+
   const applyFilters = () => {
     let result = [...packages];
-    
+
     // Apply search term
     if (searchTerm) {
       const search = searchTerm.toLowerCase();
-      result = result.filter(pkg => 
-        pkg.name.toLowerCase().includes(search) || 
-        pkg.description.toLowerCase().includes(search) || 
+      result = result.filter(pkg =>
+        pkg.name.toLowerCase().includes(search) ||
+        pkg.description.toLowerCase().includes(search) ||
         pkg.location.toLowerCase().includes(search)
       );
     }
-    
+
     // Apply location filter
     if (filters.location && filters.location !== 'all') {
       result = result.filter(pkg => pkg.location === filters.location);
     }
-    
+
     // Apply price range filter
-    result = result.filter(pkg => 
+    result = result.filter(pkg =>
       pkg.price >= filters.priceRange[0] && pkg.price <= filters.priceRange[1]
     );
-    
+
     // Apply duration filter
     if (filters.duration && filters.duration !== 'any') {
       // Simple parsing of duration strings
@@ -85,7 +85,7 @@ export default function PackagesPage() {
         return true;
       });
     }
-    
+
     // Apply sorting
     if (filters.sortBy === 'price-low') {
       result.sort((a, b) => a.price - b.price);
@@ -94,10 +94,10 @@ export default function PackagesPage() {
     } else if (filters.sortBy === 'rating') {
       result.sort((a, b) => b.rating - a.rating);
     }
-    
+
     setFilteredPackages(result);
   };
-  
+
   const resetFilters = () => {
     setFilters({
       location: 'all',
@@ -110,16 +110,17 @@ export default function PackagesPage() {
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
-      <div className="bg-primary text-white py-12">
-        <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-4">Travel Packages</h1>
-          <p className="max-w-2xl">
-            Discover our handpicked selection of travel packages to destinations across India. 
-            Filter by location, price, and duration to find your perfect getaway.
+      <div className="bg-gray-100 dark:bg-gray-900 py-10">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-6 tracking-wide bg-gradient-to-r from-blue-800 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+            Explore Our Curated Travel Escapes
+          </h1>
+          <p className="max-w-2xl mx-auto text-lg leading-relaxed text-gray-900 dark:text-gray-50 bg-clip-text">
+            Embark on unforgettable journeys across India with our handpicked travel packages.
+            Refine your search by destination, budget, or trip length to uncover the adventure that suits you best.
           </p>
         </div>
       </div>
-      
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
@@ -127,9 +128,9 @@ export default function PackagesPage() {
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 sticky top-24">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-lg font-semibold">Filters</h2>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={resetFilters}
                   className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                 >
@@ -137,7 +138,7 @@ export default function PackagesPage() {
                   Reset
                 </Button>
               </div>
-              
+
               <div className="space-y-6">
                 {/* Search */}
                 <div>
@@ -155,14 +156,14 @@ export default function PackagesPage() {
                     />
                   </div>
                 </div>
-                
+
                 {/* Location Filter */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Destination
                   </label>
-                  <Select 
-                    value={filters.location} 
+                  <Select
+                    value={filters.location}
                     onValueChange={(value) => setFilters({ ...filters, location: value })}
                   >
                     <SelectTrigger>
@@ -172,14 +173,14 @@ export default function PackagesPage() {
                       <SelectItem value="all">All destinations</SelectItem>
                       <SelectItem value="Goa">Goa</SelectItem>
                       <SelectItem value="Kerala">Kerala</SelectItem>
-                      <SelectItem value="Rajasthan">Rajasthan</SelectItem>
+                      <SelectItem value="Kashmir">Kashmir</SelectItem>
                       <SelectItem value="Himachal Pradesh">Himachal Pradesh</SelectItem>
                       <SelectItem value="Andaman">Andaman</SelectItem>
                       <SelectItem value="Delhi-Agra-Jaipur">Golden Triangle</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                
+
                 {/* Price Range Filter */}
                 <div>
                   <div className="flex justify-between mb-2">
@@ -199,14 +200,14 @@ export default function PackagesPage() {
                     className="py-4"
                   />
                 </div>
-                
+
                 {/* Duration Filter */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Duration
                   </label>
-                  <Select 
-                    value={filters.duration} 
+                  <Select
+                    value={filters.duration}
                     onValueChange={(value) => setFilters({ ...filters, duration: value })}
                   >
                     <SelectTrigger>
@@ -221,14 +222,14 @@ export default function PackagesPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                
+
                 {/* Sort By */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Sort By
                   </label>
-                  <Select 
-                    value={filters.sortBy} 
+                  <Select
+                    value={filters.sortBy}
                     onValueChange={(value) => setFilters({ ...filters, sortBy: value })}
                   >
                     <SelectTrigger>
@@ -245,7 +246,7 @@ export default function PackagesPage() {
               </div>
             </div>
           </div>
-          
+
           {/* Package Listings */}
           <div className="w-full lg:w-3/4">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
@@ -262,8 +263,8 @@ export default function PackagesPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-gray-500 dark:text-gray-400">Sort by:</span>
-                  <Select 
-                    value={filters.sortBy} 
+                  <Select
+                    value={filters.sortBy}
                     onValueChange={(value) => setFilters({ ...filters, sortBy: value })}
                   >
                     <SelectTrigger className="w-[180px]">
@@ -279,14 +280,14 @@ export default function PackagesPage() {
                 </div>
               </div>
             </div>
-            
+
             {filteredPackages.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filteredPackages.map((pkg) => (
                   <Card key={pkg.id} className="overflow-hidden transition-all duration-300 hover:shadow-lg">
                     <div className="relative h-48 overflow-hidden">
-                      <img 
-                        src={pkg.image} 
+                      <img
+                        src={pkg.image}
                         alt={pkg.name}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                       />
@@ -295,14 +296,14 @@ export default function PackagesPage() {
                         <span>{pkg.rating}</span>
                       </div>
                     </div>
-                    
+
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <h3 className="text-xl font-bold">{pkg.name}</h3>
                         <p className="text-lg font-bold text-primary">₹{pkg.price.toLocaleString()}</p>
                       </div>
                     </CardHeader>
-                    
+
                     <CardContent className="pb-4">
                       <div className="flex items-center text-gray-600 dark:text-gray-400 mb-2">
                         <MapPin className="h-4 w-4 mr-1" />
@@ -314,12 +315,12 @@ export default function PackagesPage() {
                       </div>
                       <p className="text-gray-700 dark:text-gray-300">{pkg.description}</p>
                     </CardContent>
-                    
+
                     <CardFooter className="flex justify-between items-center pt-0">
                       <div className="flex flex-wrap gap-1">
                         {pkg.inclusions.slice(0, 2).map((inclusion, index) => (
-                          <span 
-                            key={index} 
+                          <span
+                            key={index}
                             className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-xs px-2 py-1 rounded"
                           >
                             {inclusion}
