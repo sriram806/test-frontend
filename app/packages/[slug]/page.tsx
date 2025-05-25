@@ -21,12 +21,13 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function PackageDetailPage({ 
-  params 
-}: { 
-  params: Promise<{ slug: string }> 
-}) {
-  const { slug } = await params;
+type Props = {
+  params: { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export default function PackageDetailPage({ params }: Props) {
+  const { slug } = params;
 
   const packageData = travelPackages.find(pkg => pkg.slug === slug);
 
