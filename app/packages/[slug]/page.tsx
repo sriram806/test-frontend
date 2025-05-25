@@ -21,7 +21,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function PackageDetailPage({ params }: { params: { slug: string } }) {
+export default async function PackageDetailPage({ 
+  params 
+}: { 
+  params: Promise<{ slug: string }> 
+}) {
   const { slug } = await params;
 
   const packageData = travelPackages.find(pkg => pkg.slug === slug);
