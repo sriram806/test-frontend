@@ -23,14 +23,16 @@ export async function generateStaticParams() {
 
 interface PageProps {
   params: Promise<{ slug: string }>;
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function PackageDetailPage({
   params,
+  searchParams,
 }: PageProps) {
   const resolvedParams = await params;
   const { slug } = resolvedParams;
+  const resolvedSearchParams = await searchParams;
 
   const packageData = travelPackages.find(pkg => pkg.slug === slug);
 
