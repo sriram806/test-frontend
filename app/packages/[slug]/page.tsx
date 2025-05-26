@@ -32,7 +32,6 @@ export default async function PackageDetailPage({
 }: PageProps) {
   const resolvedParams = await params;
   const { slug } = resolvedParams;
-  const resolvedSearchParams = await searchParams;
 
   const packageData = travelPackages.find(pkg => pkg.slug === slug);
 
