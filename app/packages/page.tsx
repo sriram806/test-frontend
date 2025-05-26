@@ -282,79 +282,56 @@ export default function PackagesPage() {
             </div>
 
             {filteredPackages.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredPackages.map((pkg) => (
-                  <Card key={pkg.id} className="overflow-hidden transition-all duration-300 hover:shadow-lg">
-                    <div className="relative h-48 overflow-hidden">
+                  <Card key={pkg.id} className="overflow-hidden transition-shadow hover:shadow-xl">
+                    <CardHeader className="p-0">
                       <img
                         src={pkg.image}
                         alt={pkg.name}
-                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                        className="w-full h-48 object-cover"
                       />
-                      <div className="absolute top-4 right-4 bg-white dark:bg-gray-800 rounded-full px-3 py-1 text-sm font-medium flex items-center">
-                        <Star className="h-4 w-4 text-yellow-400 mr-1" />
-                        <span>{pkg.rating}</span>
-                      </div>
-                    </div>
-
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-start">
-                        <h3 className="text-xl font-bold">{pkg.name}</h3>
-                        <p className="text-lg font-bold text-primary">₹{pkg.price.toLocaleString()}</p>
-                      </div>
                     </CardHeader>
-
-                    <CardContent className="pb-4">
-                      <div className="flex items-center text-gray-600 dark:text-gray-400 mb-2">
-                        <MapPin className="h-4 w-4 mr-1" />
-                        <span className="text-sm">{pkg.location}</span>
+                    <CardContent className="p-4">
+                      <h3 className="text-lg font-semibold mb-1">{pkg.name}</h3>
+                      <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        <MapPin className="w-4 h-4 mr-1" />
+                        {pkg.location}
                       </div>
-                      <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
-                        <Clock className="h-4 w-4 mr-1" />
-                        <span className="text-sm">{pkg.duration}</span>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+                        {pkg.description}
+                      </p>
+                      <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                        <div className="flex items-center gap-1">
+                          <Clock className="w-4 h-4" />
+                          {pkg.duration}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Star className="w-4 h-4 text-yellow-500" />
+                          {pkg.rating.toFixed(1)}
+                        </div>
                       </div>
-                      <p className="text-gray-700 dark:text-gray-300">{pkg.description}</p>
                     </CardContent>
-
-                    <CardFooter className="flex justify-between items-center pt-0">
-                      <div className="flex flex-wrap gap-1">
-                        {pkg.inclusions.slice(0, 2).map((inclusion, index) => (
-                          <span
-                            key={index}
-                            className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-xs px-2 py-1 rounded"
-                          >
-                            {inclusion}
-                          </span>
-                        ))}
-                        {pkg.inclusions.length > 2 && (
-                          <span className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-xs px-2 py-1 rounded">
-                            +{pkg.inclusions.length - 2} more
-                          </span>
-                        )}
-                      </div>
-                      <Button asChild variant="ghost" className="text-primary p-0">
-                        <Link href={`/packages/${pkg.slug}`}>
-                          View Details <ArrowRight className="ml-1 h-4 w-4" />
-                        </Link>
-                      </Button>
+                    <CardFooter className="p-4 flex justify-between items-center">
+                      <span className="text-base font-semibold text-blue-600 dark:text-blue-400">
+                        ₹{pkg.price.toLocaleString()}
+                      </span>
+                      <Link href={`/packages/${pkg.id}`}>
+                        <Button size="sm">
+                          View <ArrowRight className="w-4 h-4 ml-1" />
+                        </Button>
+                      </Link>
                     </CardFooter>
                   </Card>
                 ))}
               </div>
             ) : (
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-12 text-center">
-                <div className="mb-4 text-gray-400">
-                  <Search className="h-12 w-12 mx-auto" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">No packages found</h3>
-                <p className="text-gray-500 dark:text-gray-400 mb-6">
-                  We couldn't find any packages matching your criteria. Try adjusting your filters or search terms.
-                </p>
-                <Button onClick={resetFilters}>
-                  Reset Filters
-                </Button>
+              <div className="text-center text-gray-500 dark:text-gray-400 py-12">
+                <p className="text-lg">No packages match your criteria.</p>
+                <p className="text-sm mt-2">Try adjusting your filters or search terms.</p>
               </div>
             )}
+
           </div>
         </div>
       </div>
